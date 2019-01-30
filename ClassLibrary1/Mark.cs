@@ -5,12 +5,11 @@ using System.Text;
 
 namespace ClassLibrary1
 {
-    public class Mark
+    public class Mark: ATable
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+
         public int Value { get; set; }
         public int Weight { get; set; }
-        public int Subject { get; set; }
+        public int SubjectID { get; set; }
     }
 }

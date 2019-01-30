@@ -13,24 +13,36 @@ namespace ClassLibrary1
         {
             database = new SQLiteAsyncConnection(dbPath);
             database.CreateTableAsync<Mark>().Wait();
+            database.CreateTableAsync<Subject>().Wait();
         }
 
-        public Task<List<Mark>> GetItemsAsync()
+        public Task<List<T>> GetListOf<T>() where T : ATable, new()
         {
-            return database.Table<Mark>().ToListAsync();
+            return database.Table<T>().ToListAsync();
         }
 
-        public Task<List<Mark>> GetItemsNotDoneAsync(string sql)
+        public Task<List<Mark>> GetMarksBySqlRequest(string Request)
         {
-            return database.QueryAsync<Mark>(sql);
+            return database.QueryAsync<Mark>(Request);
         }
 
-        public Task<Mark> GetItemAsync(int id)
+        public async Task<T> GetById<T>(int id) where T : ATable, new()
         {
-            return database.Table<Mark>().Where(i => i.Id == id).FirstOrDefaultAsync();
+            return await database.Table<T>().Where(i => i.Id == id).FirstOrDefaultAsync();
         }
 
-        public Task<int> SaveItemAsync(Mark item)
+        public Task<int> InsertMark(Mark item)
+        {
+            if (item.Id != 0)
+            {
+                return database.UpdateAsync(item);
+            }
+            else
+            {
+                return database.InsertAsync(item);
+            }
+        }
+        public Task<int> InsertSubject(Subject item)
         {
             if (item.Id != 0)
             {
@@ -42,7 +54,7 @@ namespace ClassLibrary1
             }
         }
 
-        public Task<int> DeleteItemAsync(Mark item)
+        public Task<int> DeleteMark(Mark item)
         {
             return database.DeleteAsync(item);
         }

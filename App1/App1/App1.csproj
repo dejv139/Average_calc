@@ -16,4 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ConsoleApp1\ConsoleApp1.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TabbedPage1.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
